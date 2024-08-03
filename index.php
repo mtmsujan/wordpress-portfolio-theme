@@ -1,29 +1,28 @@
 <?php get_header();?>
         <div id="hero" data-scroll-section>
-            <div class="hero-wrap jarallax"
-                style="background-image: url('<?php echo get_template_directory_uri();?>/assets/img/cache/catalog/1-dungbubu/dungbubu-1920x1080.png');">
+            <?php $hero_section_background_image = get_theme_mod('hero_image');?>
+            <div class="hero-wrap jarallax" style="background-image: url('<?php echo esc_url($hero_section_background_image); ?>');">
                 <div class="hero-content">
                     <div class="container-fluid">
                         <div class="d-flex justify-content-between" data-scroll data-scroll-speed="0.5">
-                            <div class="hero-title fs-140 fw-700 text-white text-uppercase">
-                                Freelance <br> Digital designer </div>
+                            <div class="hero-title fs-140 fw-700 text-white text-uppercase"><?php echo esc_html(get_theme_mod('hero_title'));?></div>
                             <div class="hero-desc text-white d-none d-xl-block">
                                 <div class="">
-                                    <a href="mailto: Nguyenmanhdung1996@gmail.com"
-                                        class="hover-animation">Nguyenmanhdung1996@gmail.com </a>
+                                    <a href="mailto: <?php echo esc_html(get_theme_mod('hero_email'));?>"
+                                        class="hover-animation"><?php echo esc_html(get_theme_mod('hero_email'));?> </a>
                                 </div>
                                 <div class="">
-                                    <a href="tel: +84346189173" class="hover-animation">(+84)346189173 </a>
+                                    <a href="tel:<?php echo esc_html(get_theme_mod('hero_phone'));?>" class="hover-animation"><?php echo esc_html(get_theme_mod('hero_phone'));?> </a>
                                 </div>
                                 <div class="social_list">
-                                    <a href="https://www.facebook.com/NguyenManhDung1996/"
-                                        class="hover-animation">Facebook </a>
+                                    <a href="<?php echo esc_html(get_theme_mod('hero_facebook'));?>"
+                                        class="hover-animation"><?php echo esc_html(get_theme_mod('hero_facebook_label'));?> </a>
                                 </div>
                                 <div class="social_list">
-                                    <a href="https://www.instagram.com/dungbubu/" class="hover-animation">Instagram </a>
+                                    <a href="<?php echo esc_html(get_theme_mod('hero_instagram'));?>" class="hover-animation"><?php echo esc_html(get_theme_mod('hero_instagram_label'));?> </a>
                                 </div>
                                 <div class="social_list">
-                                    <a href="https://t.me/dungbubu" class="hover-animation">Telegram </a>
+                                    <a href="<?php echo esc_html(get_theme_mod('hero_telegram'));?>" class="hover-animation"><?php echo esc_html(get_theme_mod('hero_telegram_label'));?> </a>
                                 </div>
                             </div>
                         </div>
@@ -35,24 +34,11 @@
         <div class="hero-marquee" style="display: none;">
             <div class="hero-marquee-inner" aria-hidden="true" style="color: #fff">
                 <div class="marquee">
-                    <span>Business website</span>
-                    <span>Ecommerce website</span>
-                    <span>Landingpage</span>
-                    <span>Mobile app</span>
-                    <span>Ui design</span>
-                    <span>Motion graphic</span>
-                    <span>Powerpoint presentation</span>
-                    <span>Company profile</span>
-                    <span>Social media</span>
-                    <span>Business website</span>
-                    <span>Ecommerce website</span>
-                    <span>Landingpage</span>
-                    <span>Mobile app</span>
-                    <span>Ui design</span>
-                    <span>Motion graphic</span>
-                    <span>Powerpoint presentation</span>
-                    <span>Company profile</span>
-                    <span>Social media</span>
+                    <?php 
+                    $hade_line = get_theme_mod('hero_hade_line');
+                    $hade_line = str_replace(',', ' - ', $hade_line);
+                    echo $hade_line;?>
+                    <?php // echo esc_html(get_theme_mod('hero_hade_line'));?>
                 </div>
             </div>
             <script>
