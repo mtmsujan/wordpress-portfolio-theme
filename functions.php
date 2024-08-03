@@ -89,6 +89,49 @@ class WP_Custom_Navwalker extends Walker_Nav_Menu {
         $this->delay += 0.1;
     }
 }
+
+// Register Project Custom post type
+function register_project_post_type() {
+    $labels = array(
+        'name'               => _x( 'Projects', 'post type general name', 'wordpress-portfolio-theme' ),
+        'singular_name'      => _x( 'Project', 'post type singular name', 'wordpress-portfolio-theme' ),
+        'menu_name'          => _x( 'Projects', 'admin menu', 'wordpress-portfolio-theme' ),
+        'name_admin_bar'     => _x( 'Project', 'add new on admin bar', 'wordpress-portfolio-theme' ),
+        'add_new'            => _x( 'Add New', 'project', 'wordpress-portfolio-theme' ),
+        'add_new_item'       => __( 'Add New Project', 'wordpress-portfolio-theme' ),
+        'new_item'           => __( 'New Project', 'wordpress-portfolio-theme' ),
+        'edit_item'          => __( 'Edit Project', 'wordpress-portfolio-theme' ),
+        'view_item'          => __( 'View Project', 'wordpress-portfolio-theme' ),
+        'all_items'          => __( 'All Projects', 'wordpress-portfolio-theme' ),
+        'search_items'       => __( 'Search Projects', 'wordpress-portfolio-theme' ),
+        'parent_item_colon'  => __( 'Parent Projects:', 'wordpress-portfolio-theme' ),
+        'not_found'          => __( 'No projects found.', 'wordpress-portfolio-theme' ),
+        'not_found_in_trash' => __( 'No projects found in Trash.', 'wordpress-portfolio-theme' )
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'project' ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+        'menu_icon'          => 'dashicons-portfolio',
+    );
+
+    register_post_type( 'project', $args );
+}
+
+add_action( 'init', 'register_project_post_type' );
+
+
+
 // Add the theme's customize support
 add_action( 'customize_register', 'my_theme_customize_register' );
 
@@ -96,7 +139,7 @@ function my_theme_customize_register( $wp_customize ) {
     // Add a section for the freelance availability message
     $wp_customize->add_section( 'freelance_availability_section', array(
         'title'    => __( 'Freelance Availability', 'wordpress-portfolio-theme' ),
-        'priority' => 30,
+        'priority' => 160,
     ) );
 
     // Add a setting for the freelance availability message
@@ -116,7 +159,7 @@ function my_theme_customize_register( $wp_customize ) {
     // Hero section
     $wp_customize->add_section( 'hero_section', array(
         'title'    => __( 'Hero Section', 'wordpress-portfolio-theme' ),
-        'priority' => 20,
+        'priority' => 170,
     ));
 
     // Default hero section background image
@@ -310,7 +353,166 @@ function my_theme_customize_register( $wp_customize ) {
         'type'     => 'text',
     ));
 
+    // Expect Section in Home page
+    $wp_customize->add_setting( 'expect_section', array(
+        'title'    => __( 'Expect Section', 'wordpress-portfolio-theme' ),
+        'priority' => 200,
+    ));
+
+    // Add a section for the expect section
+    $wp_customize->add_section( 'expect_section', array(
+        'title'    => __( 'Expect Section Heding', 'wordpress-portfolio-theme' ),
+        'transport' => 'refresh',
+    ));
+
+    // Add a setting for the expect section
+    $wp_customize->add_control( 'expect_section_control', array(
+        'label'    => __( 'Expect Section', 'wordpress-portfolio-theme' ),
+        'section'  => 'expect_section',
+        'settings' => 'expect_section',
+        'default'  => 'I prioritize tidy layouts, clean typography, and meticulous alignment to ensure user-friendly products. With a passion for minimalism, I aim to maximize the impact of brands messages, stories, and images in each of my designs',
+        'placeholder' => 'Enter your expect section here',
+        'type'     => 'text',
+    ));
+
+    // add Service list
+    $wp_customize->add_setting( 'service_list', array(
+        'Default'    => __( 'Service List', 'wordpress-portfolio-theme' ),
+        'transport' => 'refresh',
+    ));
+
+    // Add a setting for the service list
+    $wp_customize->add_control( 'service_list_control', array(
+        'label'    => __( 'Service List', 'wordpress-portfolio-theme' ),
+        'section'  => 'expect_section',
+        'settings' => 'service_list',
+        'default'  => 'Business website, Ecommerce website, Landingpage, Mobile app, Ui design, Motion graphic, Powerpoint presentation, Company profile, Social media',
+        'placeholder' => 'Enter your service list here',
+        'type'     => 'textarea',
+    ));
+
+    // add Expert Content
+    $wp_customize->add_setting( 'expert_content', array(
+        'Default'    => __( 'Expert Description', 'wordpress-portfolio-theme' ),
+        'transport' => 'refresh',
+    ));
+
+    // Add a setting for the expert content
+    $wp_customize->add_control( 'expert_content_control', array(
+        'label'    => __( 'Expert Description', 'wordpress-portfolio-theme' ),
+        'section'  => 'expect_section',
+        'settings' => 'expert_content',
+        'default'  => 'With a background in training and designing slides for domestic enterprises for many years, I have a deep understanding of layout presentation, content handling, and working with motion effects. Now, I bring that experience to web design along with my knowledge of front-end programming to create more great websites',
+        'placeholder' => 'Enter your expert content here',
+        'type'     => 'textarea',
+    ));
+
+    // Add a button text expert section
+    $wp_customize->add_setting( 'expert_button_text', array(
+        'Default'    => __( 'Button Text', 'wordpress-portfolio-theme' ),
+        'transport' => 'refresh',
+    ));
+
+    // Add a setting for the button text expert section
+    $wp_customize->add_control( 'expert_button_text_control', array(
+        'label'    => __( 'Button Text', 'wordpress-portfolio-theme' ),
+        'section'  => 'expect_section',
+        'settings' => 'expert_button_text',
+        'default'  => 'More about me',
+        'placeholder' => 'Enter your button text here',
+        'type'     => 'text',
+    ));
+
+    // Add a button url expert section
+    $wp_customize->add_setting( 'expert_button_url', array(
+        'Default'    => __( 'Button Url', 'wordpress-portfolio-theme' ),
+        'sanitize_callback' => 'esc_url_raw', // Sanitize the URL
+        'transport' => 'refresh',
+    ));
+
+    // Add a setting for the button url expert section
+    $wp_customize->add_control( 'expert_button_url_control', array(
+        'label'    => __( 'Button Url', 'wordpress-portfolio-theme' ),
+        'section'  => 'expect_section',
+        'settings' => 'expert_button_url',
+        'default'  => '#',
+        'placeholder' => 'Enter your button url here',
+        'type'     => 'url',
+    ));
+
+    // Add a section for the Project Section
+    $wp_customize->add_section('project_section', array(
+        'title'    => __('Project Section', 'wordpress-portfolio-theme'),
+        'priority' => 180,
+    ));
+
+    // Add a setting for the Project Section title
+    $wp_customize->add_setting('project_section_title', array(
+        'default'           => 'Some of the most impressive projects I have worked',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+
+    // Add a control for the Project Section title
+    $wp_customize->add_control('project_section_title_control', array(
+        'label'       => __('Project Section Title', 'wordpress-portfolio-theme'),
+        'section'     => 'project_section',
+        'settings'    => 'project_section_title',
+        'type'        => 'text',
+        'placeholder' => 'Enter your project section title here',
+    ));
+
+    // Add a setting for the Project Section description
+    $wp_customize->add_setting('project_section_description', array(
+        'default'           => 'These are just a few projects that I personally enjoy the most. I would be glad to show you a bunch of other projects that I have done so far. Would you like to have a look at them?',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+
+    // Add a control for the Project Section description
+    $wp_customize->add_control('project_section_description_control', array(
+        'label'       => __('Project Section Description', 'wordpress-portfolio-theme'),
+        'section'     => 'project_section',
+        'settings'    => 'project_section_description',
+        'default'  => 'These are just a few projects that I personally enjoy the most. I would be glad to show you a bunch of other projects that I have done so far. Would you like to have a look at them?',
+        'type'        => 'textarea',
+        'placeholder' => 'Enter your project section description here',
+    ));
+
+    // Add a Button in Project Section
+    $wp_customize->add_setting( 'project_button_text', array(
+        'Default'    => __( 'All projects', 'wordpress-portfolio-theme' ),
+        'transport' => 'refresh',
+    ));
+
+    // Add a setting for the button text project section
+    $wp_customize->add_control( 'project_button_text_control', array(
+        'label'    => __( 'Button Text', 'wordpress-portfolio-theme' ),
+        'section'  => 'project_section',
+        'settings' => 'project_button_text',
+        'default'  => 'See more',
+        'placeholder' => 'Enter your button text here',
+        'type'     => 'text',
+    ));
+
+    // Add a button url project section
+    $wp_customize->add_setting( 'project_button_url', array(
+        'Default'    => __( 'Button Url', 'wordpress-portfolio-theme' ),
+        'sanitize_callback' => 'esc_url_raw', // Sanitize the URL
+        'transport' => 'refresh',
+    )); 
+
+    // Add a setting for the button url project section 
+    $wp_customize->add_control( 'project_button_url_control', array(
+        'label'    => __( 'Button Url', 'wordpress-portfolio-theme' ),
+        'section'  => 'project_section',
+        'settings' => 'project_button_url',
+        'default'  => '#',
+        'placeholder' => 'Enter your button url here',
+        'type'     => 'url',
+    ));
 }
+
 
 
 

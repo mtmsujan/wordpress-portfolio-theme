@@ -52,10 +52,7 @@
                 <div class="container-custom mb-120">
                     <p class="about-me__sub-tittle font-tnr font-italic content-animation">What you can expect from me:
                     </p>
-                    <div class="about-me__title fs-40 text-reveal mt-20 mb-80 content-animation">
-                        I prioritize tidy layouts, clean typography, and meticulous alignment to ensure user-friendly
-                        products. With a passion for minimalism, I aim to maximize the impact of brands' messages,
-                        stories, and images in each of my designs </div>
+                    <div class="about-me__title fs-40 text-reveal mt-20 mb-80 content-animation"><?php echo esc_html(get_theme_mod('expect_section'));?></div>
                     <div id="about-me__all-services" class="content-animation"></div>
                 </div>
                 <div id="hero-video"></div>
@@ -67,14 +64,11 @@
                     <div data-aos="fade-up" data-aos-duration="1000">
                         <p class="font-tnr font-italic mb-05">All services</p>
                         <ul>
+                            <?php 
+                            $services = get_theme_mod('service_list');
+                            ?>
                             <li class="mb-05">
-                                <p>1. Ui design - Website, landing page, mobile app</p>
-                            </li>
-                            <li class="mb-05">
-                                <p>2. Powerpoint presentation and motion graphic video</p>
-                            </li>
-                            <li class="mb-05">
-                                <p>3. Media publications - Company profile, banner, poster, ...</p>
+                                <p><?php echo $services;?></p>
                             </li>
                         </ul>
                     </div>
@@ -82,14 +76,11 @@
                 <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
                     <div class="about-me__desc max-width text-justify-center" data-aos="fade-up"
                         data-aos-duration="1000">
-                        <p>With a background in training and designing slides for domestic enterprises for many years, I
-                            have a deep understanding of layout presentation, content handling, and working with motion
-                            effects. Now, I bring that experience to web design along with my knowledge of front-end
-                            programming to create more great websites</p>
+                        <p><?php echo esc_html(get_theme_mod('expert_content'));?></p>
                     </div>
                     <div class="about-me__btn dungbu-btn fs-40 pt-40" data-aos="fade-up" data-aos-duration="1000">
-                        <span class="fw-400">More about me</span>
-                        <a href="#">
+                        <span class="fw-400"><?php echo esc_html(get_theme_mod('expert_button_text'));?></span>
+                        <a href="<?php echo esc_url(get_theme_mod('expert_button_url')); ?>">
                             <span class="dungbu-btn__icon ml-30 magnetic" data-strength="50" data-strength-text="50">
                                 <div class="btn-fill"></div>
                                 <span class="btn-text">
@@ -120,20 +111,18 @@
                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                             <div class="project-title title-mb fs-60 fw-700 text-uppercase heading-animation"
                                 data-aos="fade-up" data-aos-duration="1000">
-                                <div class="head-animation">Some of the most impressive projects I have worked </div>
+                                <div class="head-animation"><?php echo esc_html(get_theme_mod('project_section_title'));?></div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
                             <div class="project-desc text-justify-center mt-50 content-animation" data-aos="fade-up"
                                 data-aos-duration="1000">
-                                <p>These are just a few projects that I personally enjoy the most. I would be glad to
-                                    show you a bunch of other projects that I have done so far. Would you like to have a
-                                    look at them?</p>
+                                <p><?php echo esc_html(get_theme_mod('project_section_description'));?></p>
                             </div>
                             <div class="project__btn dungbu-btn pt-40 fs-40 content-animation" data-aos="fade-up"
                                 data-aos-duration="1000">
-                                <span class="fw-400"> All projects</span>
-                                <a href="#">
+                                <span class="fw-400"> <?php echo esc_html(get_theme_mod('project_button_text'));?></span>
+                                <a href="<?php echo esc_url(get_theme_mod('project_button_url')); ?>">
                                     <span class="dungbu-btn__icon ml-30 magnetic" data-strength="50"
                                         data-strength-text="50">
                                         <div class="btn-fill"></div>
