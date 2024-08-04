@@ -1,0 +1,62 @@
+.project-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-group {
+    margin-bottom: 15px;
+}
+
+.field-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.field-group input,
+.field-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#upload_image_button {
+    margin-top: 10px;
+}
+
+#image_preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.gallery-item {
+    position: relative;
+    display: inline-block;
+}
+
+.gallery-item img {
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.remove-image-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgb(165, 165, 165);
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+}
+i.fa-close {
+    color: red;
+}

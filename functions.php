@@ -73,6 +73,16 @@ function wordpress_portfolio_theme_scripts() {
 // Hook into the 'wp_enqueue_scripts' action
 add_action('wp_enqueue_scripts', 'wordpress_portfolio_theme_scripts');
 
+// Enqueue custom styles and scripts
+add_action( 'admin_enqueue_scripts', 'enqueue_custom_admin_styles_scripts' );
+function enqueue_custom_admin_styles_scripts() {
+    wp_enqueue_style( 'custom-admin-styles', get_template_directory_uri() . '/assets/css/custom-admin.css' );
+    // fontawesome
+    wp_enqueue_style( 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' );
+    wp_enqueue_media();
+    wp_enqueue_script( 'custom-admin-scripts', get_template_directory_uri() . '/assets/js/custom-admin.js', array( 'jquery' ), null, true );
+}
+
 class WP_Custom_Navwalker extends Walker_Nav_Menu {
     private $delay = 0;
 
@@ -130,6 +140,236 @@ function register_project_post_type() {
 
 add_action( 'init', 'register_project_post_type' );
 
+// Register custom taxonomies for Project
+function register_project_taxonomies() {
+    // Register Category taxonomy in Project
+    $labels = array(
+        'name'              => _x( 'Project Categories', 'taxonomy general name', 'wordpress-portfolio-theme' ),
+        'singular_name'     => _x( 'Project Category', 'taxonomy singular name', 'wordpress-portfolio-theme' ),
+        'search_items'      => __( 'Search Project Categories', 'wordpress-portfolio-theme' ),
+        'all_items'         => __( 'All Project Categories', 'wordpress-portfolio-theme' ),
+        'parent_item'       => __( 'Parent Project Category', 'wordpress-portfolio-theme' ),
+        'parent_item_colon' => __( 'Parent Project Category:', 'wordpress-portfolio-theme' ),
+        'edit_item'         => __( 'Edit Project Category', 'wordpress-portfolio-theme' ),
+        'update_item'       => __( 'Update Project Category', 'wordpress-portfolio-theme' ),
+        'add_new_item'      => __( 'Add New Project Category', 'wordpress-portfolio-theme' ),
+        'new_item_name'     => __( 'New Project Category Name', 'wordpress-portfolio-theme' ),
+        'menu_name'         => __( 'Project Categories', 'wordpress-portfolio-theme' ),
+    );
+
+    $args = array(
+        'hierarchical'      => true,
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'project-category' ),
+    );
+
+    register_taxonomy( 'project_category', array( 'project' ), $args );
+
+    // Register Tag taxonomy in Project
+    $labels = array(
+        'name'                       => _x( 'Project Tags', 'taxonomy general name', 'wordpress-portfolio-theme' ),
+        'singular_name'              => _x( 'Project Tag', 'taxonomy singular name', 'wordpress-portfolio-theme' ),
+        'search_items'               => __( 'Search Project Tags', 'wordpress-portfolio-theme' ),
+        'popular_items'              => __( 'Popular Project Tags', 'wordpress-portfolio-theme' ),
+        'all_items'                  => __( 'All Project Tags', 'wordpress-portfolio-theme' ),
+        'parent_item'                => null,
+        'parent_item_colon'          => null,
+        'edit_item'                  => __( 'Edit Project Tag', 'wordpress-portfolio-theme' ),
+        'update_item'                => __( 'Update Project Tag', 'wordpress-portfolio-theme' ),
+        'add_new_item'               => __( 'Add New Project Tag', 'wordpress-portfolio-theme' ),
+        'new_item_name'              => __( 'New Project Tag Name', 'wordpress-portfolio-theme' ),
+        'separate_items_with_commas' => __( 'Separate project tags with commas', 'wordpress-portfolio-theme' ),
+        'add_or_remove_items'        => __( 'Add or remove project tags', 'wordpress-portfolio-theme' ),
+        'choose_from_most_used'      => __( 'Choose from the most used project tags', 'wordpress-portfolio-theme' ),
+        'not_found'                  => __( 'No project tags found.', 'wordpress-portfolio-theme' ),
+        'menu_name'                  => __( 'Project Tags', 'wordpress-portfolio-theme' ),
+    );
+
+    $args = array(
+        'hierarchical'          => false,
+        'labels'                => $labels,
+        'show_ui'               => true,
+        'show_admin_column'     => true,
+        'update_count_callback' => '_update_post_term_count',
+        'query_var'             => true,
+        'rewrite'               => array( 'slug' => 'project-tag' ),
+    );
+
+    register_taxonomy( 'project_tag', 'project', $args );
+
+    // Register Role taxonomy in Project
+    $labels = array(
+        'name'              => _x( 'Project Roles', 'taxonomy general name', 'wordpress-portfolio-theme' ),
+        'singular_name'     => _x( 'Project Role', 'taxonomy singular name', 'wordpress-portfolio-theme' ),
+        'search_items'      => __( 'Search Project Roles', 'wordpress-portfolio-theme' ),
+        'all_items'         => __( 'All Project Roles', 'wordpress-portfolio-theme' ),
+        'parent_item'       => __( 'Parent Project Role', 'wordpress-portfolio-theme' ),
+        'parent_item_colon' => __( 'Parent Project Role:', 'wordpress-portfolio-theme' ),
+        'edit_item'         => __( 'Edit Project Role', 'wordpress-portfolio-theme' ),
+        'update_item'       => __( 'Update Project Role', 'wordpress-portfolio-theme' ),
+        'add_new_item'      => __( 'Add New Project Role', 'wordpress-portfolio-theme' ),
+        'new_item_name'     => __( 'New Project Role Name', 'wordpress-portfolio-theme' ),
+        'menu_name'         => __( 'Project Roles', 'wordpress-portfolio-theme' ),
+    );
+
+    $args = array(
+        'hierarchical'      => true,
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'project-role' ),
+    );
+
+    register_taxonomy( 'project_role', 'project', $args );
+}
+add_action( 'init', 'register_project_taxonomies' );
+
+// Register Brands Custom post type
+function create_brands_gallery_post_type() {
+    $labels = array(
+        'name'                  => _x('Brands', 'Post Type General Name', 'text_domain'),
+        'singular_name'         => _x('Brand', 'Post Type Singular Name', 'text_domain'),
+        'menu_name'             => __('Brands', 'text_domain'),
+        'name_admin_bar'        => __('Brand', 'text_domain'),
+        'archives'              => __('Brand Archives', 'text_domain'),
+        'attributes'            => __('Brand Attributes', 'text_domain'),
+        'parent_item_colon'     => __('Parent Brand:', 'text_domain'),
+        'all_items'             => __('All Brands', 'text_domain'),
+        'add_new_item'          => __('Add New Brand', 'text_domain'),
+        'add_new'               => __('Add New', 'text_domain'),
+        'new_item'              => __('New Brand', 'text_domain'),
+        'edit_item'             => __('Edit Brand', 'text_domain'),
+        'update_item'           => __('Update Brand', 'text_domain'),
+        'view_item'             => __('View Brand', 'text_domain'),
+        'view_items'            => __('View Brands', 'text_domain'),
+        'search_items'          => __('Search Brand', 'text_domain'),
+        'not_found'             => __('Not found', 'text_domain'),
+        'not_found_in_trash'    => __('Not found in Trash', 'text_domain'),
+        'featured_image'        => __('Featured Image', 'text_domain'),
+        'set_featured_image'    => __('Set featured image', 'text_domain'),
+        'remove_featured_image' => __('Remove featured image', 'text_domain'),
+        'use_featured_image'    => __('Use as featured image', 'text_domain'),
+        'insert_into_item'      => __('Insert into brand', 'text_domain'),
+        'uploaded_to_this_item' => __('Uploaded to this brand', 'text_domain'),
+        'items_list'            => __('Brands list', 'text_domain'),
+        'items_list_navigation' => __('Brands list navigation', 'text_domain'),
+        'filter_items_list'     => __('Filter brands list', 'text_domain'),
+    );
+    $args = array(
+        'label'                 => __('Brand', 'text_domain'),
+        'description'           => __('Brands Gallery', 'text_domain'),
+        'labels'                => $labels,
+        'supports'              => array('title', 'editor', 'thumbnail', 'revisions'),
+        'taxonomies'            => array('category', 'post_tag'),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 5,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+        'show_in_rest'          => true,
+        'menu_icon'             => 'dashicons-format-gallery',
+    );
+    register_post_type('brand', $args);
+}
+add_action('init', 'create_brands_gallery_post_type', 0);
+
+// Add the meta box to the project post type
+add_action( 'add_meta_boxes', 'add_project_metaboxes' );
+
+// Function to add the metabox
+function add_project_metaboxes() {
+    add_meta_box(
+        'project_details',
+        'Project Details',
+        'project_details_callback',
+        'project', // Custom post type
+        'normal',
+        'high'
+    );
+}
+
+// Metabox callback function
+function project_details_callback( $post ) {
+    wp_nonce_field( 'save_project_details', 'project_details_nonce' );
+
+    $project_description = get_post_meta( $post->ID, '_project_description', true );
+    $project_url = get_post_meta( $post->ID, '_project_url', true );
+    $project_gallery = get_post_meta( $post->ID, '_project_gallery', true );
+
+    ?>
+    <div class="project-details">
+        <div class="field-group">
+            <label for="project_description">Description</label>
+            <textarea id="project_description" name="project_description" rows="4" cols="50"><?php echo esc_textarea( $project_description ); ?></textarea>
+        </div>
+        <div class="field-group">
+            <label for="project_url">Project URL</label>
+            <input type="url" id="project_url" name="project_url" value="<?php echo esc_attr( $project_url ); ?>" size="25" />
+        </div>
+        <div class="field-group">
+            <label for="project_gallery">Image Gallery</label>
+            <input type="hidden" id="project_gallery" name="project_gallery" value="<?php echo esc_attr( $project_gallery ); ?>" />
+            <button type="button" class="button button-secondary" id="upload_image_button">Upload Images</button>
+            <div id="image_preview">
+                <?php 
+                if ( !empty( $project_gallery ) ) : 
+                    $gallery_images = unserialize( $project_gallery );
+                    foreach ( $gallery_images as $image_url ) {
+                        echo '<div class="gallery-item"><img src="' . esc_url( $image_url ) . '" style="max-width: 100px; height: auto;" /><button type="button" class="remove-image-button"><i class="fa fa-close"></i></button></div>';
+                    }
+                endif; 
+                ?>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+// Save the metabox data
+add_action( 'save_post', 'save_project_details' );
+function save_project_details( $post_id ) {
+    if ( !isset( $_POST['project_details_nonce'] ) || !wp_verify_nonce( $_POST['project_details_nonce'], 'save_project_details' ) ) {
+        return;
+    }
+
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    if ( isset( $_POST['post_type'] ) && 'projects' === $_POST['post_type'] ) {
+        if ( !current_user_can( 'edit_page', $post_id ) ) {
+            return;
+        }
+    } else {
+        if ( !current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+    }
+
+    if ( isset( $_POST['project_description'] ) ) {
+        update_post_meta( $post_id, '_project_description', sanitize_textarea_field( $_POST['project_description'] ) );
+    }
+
+    if ( isset( $_POST['project_url'] ) ) {
+        update_post_meta( $post_id, '_project_url', esc_url_raw( $_POST['project_url'] ) );
+    }
+
+    if ( isset( $_POST['project_gallery'] ) ) {
+        $gallery_images = array_map( 'esc_url_raw', explode( ',', $_POST['project_gallery'] ) );
+        update_post_meta( $post_id, '_project_gallery', serialize( $gallery_images ) );
+    }
+}
 
 
 // Add the theme's customize support
@@ -511,6 +751,87 @@ function my_theme_customize_register( $wp_customize ) {
         'placeholder' => 'Enter your button url here',
         'type'     => 'url',
     ));
+
+    // Brand Section
+    $wp_customize->add_section('brand_section', array(
+        'title'    => __('Brand Section', 'wordpress-portfolio-theme'),
+        'priority' => 190,
+    ));
+
+    // Add a setting for the Brand image section title
+    $wp_customize->add_setting('brand_section_title', array(
+        'default'           => 'Brands i have worked with',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+
+    // Add a control for the Brand image section title
+    $wp_customize->add_control('brand_section_title_control', array(
+        'label'       => __('Brand Section Title', 'wordpress-portfolio-theme'),
+        'section'     => 'brand_section',
+        'settings'    => 'brand_section_title',
+        'type'        => 'text',
+        'placeholder' => 'Enter your brand section title here',
+    ));
+
+    // Add a setting for the Brand image section description
+    $wp_customize->add_setting('brand_section_description', array(
+        'default'           => 'My experience working alongside major brands has significantly enhanced my skillset. Through these collaborations, I have gained a wealth of knowledge and insights, allowing me to consistently refine my expertise.',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+
+    // Add a control for the Brand image section description
+    $wp_customize->add_control('brand_section_description_control', array(  
+        'label'       => __('Brand Section Description', 'wordpress-portfolio-theme'),
+        'section'     => 'brand_section',
+        'settings'    => 'brand_section_description',
+        'default'     => 'My experience working alongside major brands has significantly enhanced my skillset. Through these collaborations, I have gained a wealth of knowledge and insights, allowing me to consistently refine my expertise.',
+        'type'        => 'textarea',
+        'placeholder' => 'Enter your brand section description here',
+    ));
+
+    // Footer section
+    $wp_customize->add_section('footer_section', array(
+        'title'    => __('Footer Section', 'wordpress-portfolio-theme'),
+        'priority' => 200,
+    ));
+
+    // Add a setting for the footer section title
+    $wp_customize->add_setting('footer_section_title', array(
+        'default'           => 'Got a project in mind? Let’s talk',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+
+    // Add a control for the footer section title  
+    $wp_customize->add_control('footer_section_title_control', array(
+        'label'       => __('Footer Section Title', 'wordpress-portfolio-theme'),
+        'section'     => 'footer_section',
+        'settings'    => 'footer_section_title',
+        'type'        => 'text',
+        'placeholder' => 'Enter your footer section title here',
+    ));
+
+    // default footer logo
+    $default_image_url = get_template_directory_uri() . '/assets/img/logo_footer.png';
+    // add footer logo
+    $wp_customize->add_setting('footer_logo', array(
+        'default'           => $default_image_url,
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ));
+
+    // add footer logo control
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'footer_logo_control', array(
+        'label'    => __('Footer Logo', 'wordpress-portfolio-theme'),
+        'section'  => 'footer_section',
+        'settings' => 'footer_logo',
+        'type'     => 'image',
+        'priority' => 10,
+    )));
+
+   
 }
 
 
