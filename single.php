@@ -127,13 +127,6 @@
                                             }
                                         endif;
                                     ?>
-                                    <!-- <div class="col-12">
-                                        <div class="project-detail__img content-animation">
-                                            <img src="image/cache/catalog/aura-club/auraclub-products-1-2-1920x1080.png"
-                                                alt="">
-                                        </div>
-                                    </div> -->
-                                    
                                 </div>
                             </div>
                         </div>
