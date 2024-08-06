@@ -6,7 +6,7 @@ get_header();
         <div id="breadcrumb">
             <div class="breadcrumb-wrap text-white pt-220 pb-20">
                 <div class="container-fluid">
-                    <p class="breadcrumb-subtext font-tnr font-italic fw-400" style="display: none">Let me share a few things...</p>
+                    <p class="breadcrumb-subtext font-tnr font-italic fw-400" style="display: none"><?php echo esc_html(get_theme_mod('about_section_sub_title'));?></p>
                     <p class="breadcrumb-title text-uppercase fw-700"><?php the_title();?></p>
                 </div>
             </div>
@@ -26,7 +26,7 @@ get_header();
             </div>
             <script>
                 window.addEventListener('DOMContentLoaded', (event) => {
-                    $('.breadcrumb-subtext').html('Let me share a few things...').show();
+                    $('.breadcrumb-subtext').html('<?php echo esc_html(get_theme_mod('about_section_sub_title'));?>').show();
                 });
             </script>
             <div id="about">

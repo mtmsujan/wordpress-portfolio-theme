@@ -708,6 +708,22 @@ function my_theme_customize_register( $wp_customize ) {
         'placeholder' => 'Enter your project section title here',
     ));
 
+    // Add a setting for the Project page sub title
+    $wp_customize->add_setting('project_page_sub_title', array(
+        'default'           => 'Some of the most impressive projects I have worked',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+
+    // Add a control for the Project page sub title
+    $wp_customize->add_control('project_page_sub_title_control', array(
+        'label'       => __('Project Page Sub Title', 'wordpress-portfolio-theme'),
+        'section'     => 'project_section',
+        'settings'    => 'project_page_sub_title',
+        'type'        => 'text',
+        'placeholder' => 'Enter your project page sub title here',
+    ));
+
     // Add a setting for the Project Section description
     $wp_customize->add_setting('project_section_description', array(
         'default'           => 'These are just a few projects that I personally enjoy the most. I would be glad to show you a bunch of other projects that I have done so far. Would you like to have a look at them?',
@@ -861,6 +877,22 @@ function my_theme_customize_register( $wp_customize ) {
         'placeholder' => 'Enter your about section title here',
     ));
 
+    // About section sub title
+    $wp_customize->add_setting('about_section_sub_title', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+
+    // Add a control for the About section sub title
+    $wp_customize->add_control('about_section_sub_title_control', array(
+        'label'       => __('About Section Sub Title', 'wordpress-portfolio-theme'),
+        'section'     => 'about_section',
+        'settings'    => 'about_section_sub_title',
+        'type'        => 'text',
+        'placeholder' => 'Enter your about section sub title here',
+    ));
+
     // Add a setting for the About section description
     $wp_customize->add_setting('about_section_description', array(
         'default'     => '',
@@ -890,7 +922,6 @@ function my_theme_customize_register( $wp_customize ) {
         'type'        => 'image',
         'priority'    => 10,
     )));
-
    
 }
 
