@@ -48,7 +48,7 @@ get_header();
                                 <div class="col-xl-2 col-lg-4 col-md-4 d-md-block d-sm-none d-none text-right">
                                     <div class="about-img content-animation" data-scroll data-scroll-offset="0, 30%"
                                         data-scroll-sticky data-scroll-target=".about-main">
-                                        <img src="image/cache/catalog/1-dungbubu/dungbu-portrait-blackbg-0x0.png" alt=""
+                                        <img src="<?php echo esc_url(get_theme_mod('about_section_image'));?>" alt="<?php echo esc_html(get_theme_mod('about_section_title'));?>"
                                             style="aspect-ratio: 3/4;">
                                     </div>
                                 </div>

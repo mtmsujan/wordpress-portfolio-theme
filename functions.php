@@ -876,6 +876,21 @@ function my_theme_customize_register( $wp_customize ) {
         'placeholder' => 'Enter your about section description here',
     ));
 
+    // Add a setting for the About section image
+    $wp_customize->add_setting('about_section_image', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ));
+    // Add a control for the About section image
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'about_section_image_control', array(
+        'label'       => __('About Section Image', 'wordpress-portfolio-theme'),
+        'section'     => 'about_section',
+        'settings'    => 'about_section_image',
+        'type'        => 'image',
+        'priority'    => 10,
+    )));
+
    
 }
 
