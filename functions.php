@@ -324,9 +324,11 @@ function project_details_callback( $post ) {
             <div id="image_preview">
                 <?php 
                 if ( !empty( $project_gallery ) ) : 
-                    $gallery_images = unserialize( $project_gallery );
-                    foreach ( $gallery_images as $image_url ) {
-                        echo '<div class="gallery-item"><img src="' . esc_url( $image_url ) . '" style="max-width: 100px; height: auto;" /><button type="button" class="remove-image-button"><i class="fa fa-close"></i></button></div>';
+                    $gallery_images = maybe_unserialize( $project_gallery );
+                    if ( is_array( $gallery_images ) ) {
+                        foreach ( $gallery_images as $image_url ) {
+                            echo '<div class="gallery-item"><img src="' . esc_url( $image_url ) . '" style="max-width: 100px; height: auto;" /><button type="button" class="remove-image-button"><i class="fa fa-close"></i></button></div>';
+                        }
                     }
                 endif; 
                 ?>
@@ -366,8 +368,12 @@ function save_project_details( $post_id ) {
     }
 
     if ( isset( $_POST['project_gallery'] ) ) {
-        $gallery_images = array_map( 'esc_url_raw', explode( ',', $_POST['project_gallery'] ) );
-        update_post_meta( $post_id, '_project_gallery', serialize( $gallery_images ) );
+        $gallery_images = array_filter( array_map( 'esc_url_raw', explode( ',', $_POST['project_gallery'] ) ) );
+        if ( !empty( $gallery_images ) ) {
+            update_post_meta( $post_id, '_project_gallery', maybe_serialize( $gallery_images ) );
+        } else {
+            delete_post_meta( $post_id, '_project_gallery' );
+        }
     }
 }
 

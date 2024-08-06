@@ -4,7 +4,7 @@
         <div class="hero__main">
             <style>
                 .project-detail__next--bg {
-                    background: url('image/catalog/melinh_plaza/melinhplaza-homepage_background_2.png');
+                    /* background: url('<?php //echo get_the_template_directory_uri();?>/assets/img/catalog/melinh_plaza/melinhplaza-homepage_background_2.png'); */
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position: center;
@@ -17,7 +17,7 @@
                     top: 0;
                     left: 50%;
                     transform: translateX(-50%);
-                    background: url('image/catalog/melinh_plaza/melinhplaza-homepage_product_2.png');
+                    /* background: url('<?php //echo get_the_template_directory_uri();?>/assets/img/catalog/melinh_plaza/melinhplaza-homepage_product_2.png'); */
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position: center;
@@ -27,7 +27,7 @@
                 }
 
                 .hero__main--bg {
-                    background: url('image/cache/catalog/aura-club/auraclub-homepage-background-2-1920x1080.png');
+                    background: url('<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full');?>');
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position: center;
@@ -39,7 +39,7 @@
                     top: 0;
                     left: 50%;
                     transform: translateX(-50%);
-                    background: url('image/cache/catalog/aura-club/auraclub-homepage-product-2-1920x1080.png');
+                    /* background: url('<?php //echo get_the_template_directory_uri();?>/assets/img/cache/catalog/aura-club/auraclub-homepage-product-2-1920x1080.png'); */
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position: center;
@@ -109,13 +109,15 @@
                             </div>
                             <div class="project-detail__main pt-40 mb-80">
                                 <div class="row">
-                                    <?php
-                                        $project_gallery = get_post_meta( $post->ID, '_project_gallery', true );
+                                <?php
+                                    $project_gallery = get_post_meta($post->ID, '_project_gallery', true);
 
+                                    // Show project gallery
+                                    if (!empty($project_gallery)) {
+                                        $gallery_images = unserialize($project_gallery);
 
-                                        // Show project gallery
-                                        if ( !empty( $project_gallery ) ) :
-                                            $gallery_images = unserialize( $project_gallery );
+                                        // Ensure $gallery_images is an array before using foreach
+                                        if (is_array($gallery_images)) {
                                             foreach ($gallery_images as $image_url) {
                                                 ?>
                                                 <div class="col-12">
@@ -125,8 +127,12 @@
                                                 </div>
                                                 <?php
                                             }
-                                        endif;
-                                    ?>
+                                        } else {
+                                            echo '<p>There was an error loading the gallery images.</p>';
+                                        }
+                                    }
+                                ?>
+
                                 </div>
                             </div>
                         </div>

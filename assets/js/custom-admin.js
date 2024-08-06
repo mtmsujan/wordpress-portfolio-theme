@@ -1,43 +1,41 @@
-jQuery(document).ready(function($) {
-    $('#upload_image_button').click(function(e) {
+jQuery(document).ready(function($){
+    var frame;
+    $('#upload_image_button').on('click', function(e) {
         e.preventDefault();
-
-        var imageUploader = wp.media({
-            title: 'Upload Images',
+        if (frame) {
+            frame.open();
+            return;
+        }
+        frame = wp.media({
+            title: 'Select or Upload Images',
             button: {
-                text: 'Select Images'
+                text: 'Use this image'
             },
-            multiple: true // Allow multiple images to be selected
-        })
-        .on('select', function() {
-            var attachments = imageUploader.state().get('selection').toJSON();
+            multiple: true
+        });
+
+        frame.on('select', function() {
+            var attachment = frame.state().get('selection').toJSON();
             var imageUrls = [];
-            var imagePreview = $('#image_preview');
-            var currentUrls = $('#project_gallery').val();
+            var imagePreviewHtml = '';
 
-            if (currentUrls) {
-                imageUrls = currentUrls.split(',');
-            }
-
-            $.each(attachments, function(index, attachment) {
-                imageUrls.push(attachment.url);
-                imagePreview.append('<div class="gallery-item"><img src="' + attachment.url + '" style="max-width: 100px; height: auto;" /><button type="button" class="remove-image-button"><i class="fa fa-close"></i></button></div>');
+            attachment.forEach(function(image) {
+                imageUrls.push(image.url);
+                imagePreviewHtml += '<div class="gallery-item"><img src="' + image.url + '" style="max-width: 100px; height: auto;" /><button type="button" class="remove-image-button"><i class="fa fa-close"></i></button></div>';
             });
 
             $('#project_gallery').val(imageUrls.join(','));
-        })
-        .open();
-    });
-
-    // Delegate click event for dynamically added remove buttons
-    $('#image_preview').on('click', '.remove-image-button', function() {
-        var imageUrl = $(this).siblings('img').attr('src');
-        var imageUrls = $('#project_gallery').val().split(',');
-        var newImageUrls = imageUrls.filter(function(url) {
-            return url !== imageUrl;
+            $('#image_preview').html(imagePreviewHtml);
         });
 
-        $('#project_gallery').val(newImageUrls.join(','));
-        $(this).parent('.gallery-item').remove();
+        frame.open();
+    });
+
+    $('#image_preview').on('click', '.remove-image-button', function() {
+        var index = $(this).parent().index();
+        var galleryImages = $('#project_gallery').val().split(',');
+        galleryImages.splice(index, 1);
+        $('#project_gallery').val(galleryImages.join(','));
+        $(this).parent().remove();
     });
 });
