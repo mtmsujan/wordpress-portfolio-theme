@@ -36,11 +36,15 @@ get_header();?>
         <div class="hero-marquee" style="display: none;">
             <div class="hero-marquee-inner" aria-hidden="true" style="color: #fff">
                 <div class="marquee">
-                    <?php 
-                    $hade_line = get_theme_mod('hero_hade_line');
-                    $hade_line = str_replace(',', ' - ', $hade_line);
-                    echo $hade_line;?>
-                    <?php // echo esc_html(get_theme_mod('hero_hade_line'));?>
+                    <?php
+                        // Abour page hade line move risht to left
+                        $hade_line = get_theme_mod('hero_hade_line');
+                        // string to array
+                        $hade_line = explode(',', $hade_line);
+                        foreach ($hade_line as $key => $value) {
+                            echo '<span>'.$value.'</span>';
+                        }
+                    ?>
                 </div>
             </div>
             <script>
