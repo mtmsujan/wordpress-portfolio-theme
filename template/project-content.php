@@ -13,7 +13,7 @@
 
             .project-img-wrap__115 .project-bg {
                 /* Show Project Thumbnail */
-                background: url('<?php echo esc_url(get_the_post_thumbnail_url(get_the_ID(), 'full')); ?>');
+                /* background: url('<?php //echo esc_url(get_the_post_thumbnail_url(get_the_ID(), 'full')); ?>'); */
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center;
@@ -33,6 +33,12 @@
                 width: 49%;
                 height: 100%;
                 overflow: hidden;
+            }
+
+            .project-img-wrap__115 .project-img img {
+                max-width: 100%;
+                height: 100%;
+                margin-top: 40px;
             }
 
             @media(max-width: 1200px) {
@@ -68,7 +74,7 @@
                                                 $i = 1;
                                                 foreach($project_categorys as $project_category){
                                                     ?>
-                                                    <span><?php echo esc_html($project_category->name);?><?php echo $i < $cate_count ? ',' : ''; ?> </span>
+                                                    <span><a href="<?php echo get_term_link($project_category);?>"><?php echo esc_html($project_category->name);?><?php echo $i < $cate_count ? ',' : ''; ?> </a></span>
                                                     <?php
                                                     $i++;
                                                 }
@@ -85,7 +91,7 @@
                                                 $i = 1;
                                                 foreach($project_roles as $project_role){
                                                     ?>
-                                                    <span><?php echo esc_html($project_role->name);?><?php echo $i < $role_count ? ',' : '';?> </span>
+                                                    <span><a href="<?php echo get_term_link($project_role);?>"><?php echo esc_html($project_role->name);?><?php echo $i < $role_count ? ',' : '';?></a></span>
                                                     <?php
                                                     $i++;
                                                 }
@@ -102,7 +108,7 @@
                                                 $i = 1;
                                                 foreach ($project_tags as $project_tag) {
                                                     ?>
-                                                    <span><?php echo esc_html($project_tag->name); ?><?php echo $i < $tag_count ? ',' : ''; ?> </span>
+                                                    <span><a href="<?php echo get_term_link($project_tag);?>"><?php echo esc_html($project_tag->name); ?><?php echo $i < $tag_count ? ',' : ''; ?></a></span>
                                                     <?php
                                                     $i++;
                                                 }
@@ -135,8 +141,7 @@
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                     <div class="project-img-wrap__115">
-                        <div class="project-bg" data-scroll data-scroll-speed="0.5"></div>
-                        <div class="project-img"></div>
+                        <div class="project-img"><img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title();?>"></div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 d-block d-lg-none">
@@ -157,7 +162,7 @@
                                             $i = 1;
                                             foreach($project_categorys as $project_category){
                                                 ?>
-                                                <span><?php echo esc_html($project_category->name);?><?php echo $i < $cate_count ? ',' : ''; ?> </span>
+                                                <span><a href="<?php echo get_term_link($project_category); ?>"><?php echo esc_html($project_category->name);?> </a><?php echo $i < $cate_count ? ',' : ''; ?></span>
                                                 <?php
                                                 $i++;
                                             }
@@ -174,7 +179,7 @@
                                             $i = 1;
                                             foreach($project_roles as $project_role){
                                                 ?>
-                                                <span><?php echo esc_html($project_role->name);?><?php echo $i < $role_count ? ',' : '';?> </span>
+                                                <span><a href="<?php echo get_term_link($project_role); ?>"><?php echo esc_html($project_role->name);?> </a><?php echo $i < $role_count ? ',' : '';?></span>
                                                 <?php
                                                 $i++;
                                             }
@@ -191,7 +196,7 @@
                                             $i = 1;
                                             foreach ($project_tags as $project_tag) {
                                                 ?>
-                                                <span><?php echo esc_html($project_tag->name); ?><?php echo $i < $tag_count ? ',' : ''; ?> </span>
+                                                <span><a href="<?php echo get_term_link($project_tag); ?>"><?php echo esc_html($project_tag->name); ?> </a> <?php echo $i < $tag_count ? ',' : ''; ?></span>
                                                 <?php
                                                 $i++;
                                             }
