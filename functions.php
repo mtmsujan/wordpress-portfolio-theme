@@ -837,6 +837,45 @@ function my_theme_customize_register( $wp_customize ) {
         'priority' => 10,
     )));
 
+    // About Page Customizer options
+
+    // About section
+    $wp_customize->add_section('about_section', array(
+        'title'    => __('About Section', 'wordpress-portfolio-theme'),
+        'priority' => 210,
+    ));
+
+    // Add a setting for the About section title
+    $wp_customize->add_setting('about_section_title', array(
+        'default'           =>"Hello, I'm Manh Dung Nguyen from Hanoi, Vietnam.",
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+
+    // Add a control for the About section title
+    $wp_customize->add_control('about_section_title_control', array(
+        'label'       => __('About Section Title', 'wordpress-portfolio-theme'),
+        'section'     => 'about_section',
+        'settings'    => 'about_section_title',
+        'type'        => 'text',
+        'placeholder' => 'Enter your about section title here',
+    ));
+
+    // Add a setting for the About section description
+    $wp_customize->add_setting('about_section_description', array(
+        'default'     => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+    // Add a control for the About section description
+    $wp_customize->add_control('about_section_description', array(
+        'label'       => __('About Section Description', 'wordpress-portfolio-theme'),
+        'section'     => 'about_section',
+        'settings'    => 'about_section_description',
+        'type'        => 'textarea',
+        'placeholder' => 'Enter your about section description here',
+    ));
+
    
 }
 
