@@ -3,29 +3,6 @@
     <div class="hero__top"></div>
     <div class="hero__main">
         <style>
-            .project-detail__next--bg {
-                /* background: url('<?php //echo get_the_template_directory_uri(); ?>/assets/img/catalog/melinh_plaza/melinhplaza-homepage_background_2.png'); */
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: center;
-                overflow: hidden;
-                aspect-ratio: 5 / 2;
-            }
-
-            .project-detail__next--image {
-                position: absolute;
-                top: 0;
-                left: 50%;
-                transform: translateX(-50%);
-                /* background: url('<?php //echo get_the_template_directory_uri(); ?>/assets/img/catalog/melinh_plaza/melinhplaza-homepage_product_2.png'); */
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: center;
-                height: 100%;
-                aspect-ratio: 1;
-                overflow: hidden;
-            }
-
             .hero__main--bg {
                 background: url('<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>');
                 background-size: cover;
@@ -143,37 +120,77 @@
                 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
                     <div class="project-detail__bottom">
                         <div class="project-detail__next">
-                            <div class="project-detail__next--sub font-tnr font-italic fw-400 pb-20 content-animation">
-                                Next project</div>
+                            <div class="project-detail__next--sub font-tnr font-italic fw-400 pb-20 content-animation">Next project</div>
+                            <?php 
+                                // Project Recent Post
+                                $args = array(
+                                    'post_type' => 'project',
+                                    'posts_per_page' => 1,
+                                    'orderby' => 'date',
+                                    'order' => 'DESC',
+                                    'post__not_in' => array(get_the_ID())
+                                );
+                                $recent_project_posts = get_posts($args);
 
-                            <div
-                                class="project-detail__next--name fs-40 fw-400 pb-20 d-block d-lg-none content-animation">
-                                Melinh Plaza</div>
-                            <div class="project-detail__next--img content-animation">
-                                <div class="project-detail__next--bg"></div>
-                                <div class="project-detail__next--image"></div>
-                                <div class="project__btn dungbu-btn fs-40">
-                                    <a href="melinh-plaza.html">
-                                        <span class="dungbu-btn__icon ml-30 magnetic" data-strength="50"
-                                            data-strength-text="50">
-                                            <div class="btn-fill"></div>
-                                            <span class="btn-text">
-                                                <span class="btn-text-inner change">
-                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M7.5 4.5V6H16.9425L4.5 18.4425L5.5575 19.5L18 7.0575V16.5H19.5V4.5H7.5Z"
-                                                            fill="#1A1A1A" />
-                                                    </svg>
-                                                </span>
-                                            </span>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div
-                                class="project-detail__next--name fs-40 fw-400 pb-20 pt-20 d-none d-lg-block content-animation">
-                                Melinh Plaza</div>
+                                if(!empty($recent_project_posts)){
+                                    foreach($recent_project_posts as $recent_project_post){
+                                        $featured_image = get_the_post_thumbnail_url($recent_project_post->ID, 'full');
+                                        $project_url = get_permalink($recent_project_post->ID);
+                                        $project_title = $recent_project_post->post_title;
+                                    
+                                        ?>
+                                            <style>
+                                                .project-detail__next--bg {
+                                                    background: url('<?php echo esc_url($featured_image); ?>');
+                                                    background-size: cover;
+                                                    background-repeat: no-repeat;
+                                                    background-position: center;
+                                                    overflow: hidden;
+                                                    aspect-ratio: 5 / 2;
+                                                }
+
+                                                .project-detail__next--image {
+                                                    position: absolute;
+                                                    top: 0;
+                                                    left: 50%;
+                                                    transform: translateX(-50%);
+                                                    /* background: url('<?php //echo esc_url($featured_image); ?>'); */
+                                                    background-size: cover;
+                                                    background-repeat: no-repeat;
+                                                    background-position: center;
+                                                    height: 100%;
+                                                    aspect-ratio: 1;
+                                                    overflow: hidden;
+                                                }
+                                            </style>
+                                            <div class="project-detail__next--name fs-40 fw-400 pb-20 d-block d-lg-none content-animation"><a href="<?php echo esc_url($project_url); ?>"><?php echo esc_html($project_title); ?></a></div>
+                                            <div class="project-detail__next--img content-animation">
+                                                <div class="project-detail__next--bg"></div>
+                                                <div class="project-detail__next--image">
+                                                    <!-- <img src="<?php //echo esc_url($featured_image); ?>" alt="<?php //echo esc_attr($project_title); ?>" /> -->
+                                                </div>
+                                                <div class="project__btn dungbu-btn fs-40">
+                                                    <a href="<?php echo esc_url($project_url); ?>">
+                                                        <span class="dungbu-btn__icon ml-30 magnetic" data-strength="50" data-strength-text="50">
+                                                            <div class="btn-fill"></div>
+                                                            <span class="btn-text">
+                                                                <span class="btn-text-inner change">
+                                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M7.5 4.5V6H16.9425L4.5 18.4425L5.5575 19.5L18 7.0575V16.5H19.5V4.5H7.5Z" fill="#1A1A1A" />
+                                                                    </svg>
+                                                                </span>
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="project-detail__next--name fs-40 fw-400 pb-20 pt-20 d-none d-lg-block content-animation"><?php echo esc_html($project_title); ?></div>
+                                        <?php
+                                    }
+                                    wp_reset_postdata(); // Reset the global post object
+                                }
+                            ?>
+
                         </div>
                     </div>
                 </div>
