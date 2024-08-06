@@ -184,7 +184,7 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="project-detail__next--name fs-40 fw-400 pb-20 pt-20 d-none d-lg-block content-animation"><?php echo esc_html($project_title); ?></div>
+                                            <div class="project-detail__next--name fs-40 fw-400 pb-20 pt-20 d-none d-lg-block content-animation"><a href="<?php echo esc_url($project_url); ?>"><?php echo esc_html($project_title); ?></a></div>
                                         <?php
                                     }
                                     wp_reset_postdata(); // Reset the global post object
