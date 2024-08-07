@@ -564,14 +564,13 @@ function my_theme_customize_register( $wp_customize ) {
         'placeholder' => 'Enter your my journey section title here',
     ));
 
-    // add Experience section title
+    // Add Experience section title
     $wp_customize->add_setting('experience_section_title', array(
         'default'           => 'Experience',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ));
-
-    // add Experience section title control
+    // Add Experience section title control
     $wp_customize->add_control('experience_section_title_control', array(
         'label'       => __('Experience Section Title', 'wordpress-portfolio-theme'),
         'section'     => 'about_section',
@@ -579,6 +578,19 @@ function my_theme_customize_register( $wp_customize ) {
         'type'        => 'text',
         'placeholder' => 'Enter your experience section title here',
     ));
+
+    // Add Experience repeatable field
+    $wp_customize->add_setting('experience_section_repeatable', array(
+        'default'           => '',
+        'sanitize_callback' => 'wp_kses_post',
+        'transport'         => 'refresh',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Repeatable_Text_Control($wp_customize, 'experience_section_repeatable', array(
+        'label'       => __('Add Experience Title and Description', 'wordpress-portfolio-theme'),
+        'section'     => 'about_section',
+        'settings'    => 'experience_section_repeatable',
+    )));
 
     // add Clients section title
     $wp_customize->add_setting('clients_section_title', array(
@@ -632,7 +644,7 @@ if (class_exists('WP_Customize_Control')) {
                     $values = !empty($values) ? json_decode($values, true) : [];
                     foreach ($values as $value) {
                         ?>
-                        <li class="repeatable-item">
+                        <li class="repeatable-item clients-list-input">
                             <input type="text" value="<?php echo esc_attr($value); ?>" class="repeatable-input" />
                             <button type="button" class="button remove-repeatable"><?php _e('Remove', 'wordpress-portfolio-theme'); ?></button>
                         </li>
@@ -646,7 +658,43 @@ if (class_exists('WP_Customize_Control')) {
             <?php
         }
     }
+
+    class WP_Customize_Repeatable_Text_Control extends WP_Customize_Control {
+        public $type = 'repeatable_text';
+
+        public function enqueue() {
+            wp_enqueue_script('repeatable-control-js', get_template_directory_uri() . '/assets/js/custom.js', array('jquery'), null, true);
+            wp_enqueue_style('repeatable-control-css', get_template_directory_uri() . '/assets/css/custom-admin.css', null, null);
+        }
+
+        public function render_content() {
+            ?>
+            <label>
+                <span class="customize-control-title"><?php echo esc_html($this->label); ?></span>
+                <ul class="repeatable-list">
+                    <?php
+                    $values = $this->value();
+                    $values = !empty($values) ? json_decode($values, true) : [];
+                    foreach ($values as $value) {
+                        ?>
+                        <li class="repeatable-item">
+                            <input type="text" value="<?php echo esc_attr($value['title']); ?>" class="repeatable-input-title" placeholder="Title" />
+                            <textarea class="repeatable-textarea" placeholder="Description"><?php echo esc_textarea($value['description']); ?></textarea>
+                            <button type="button" class="button remove-repeatable"><?php _e('Remove', 'wordpress-portfolio-theme'); ?></button>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+                <button type="button" class="button add-repeatable"><?php _e('Add New Experience', 'wordpress-portfolio-theme'); ?></button>
+                <input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr($this->value()); ?>" class="repeatable-value" />
+            </label>
+            <?php
+        }
+    }
 }
+
+
 
 
 ?>

@@ -67,9 +67,11 @@ i.fa-close {
     margin: 0;
     padding: 0;
 }
+.clients-list-input {
+    display: flex;
+}
 
 .repeatable-item {
-    display: flex;
     margin-bottom: 10px;
 }
 
@@ -80,4 +82,6 @@ i.fa-close {
 .add-repeatable {
     margin-top: 10px;
 }
+
+
 
