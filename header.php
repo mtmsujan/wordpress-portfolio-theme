@@ -149,7 +149,9 @@
                                         wp_nav_menu( array(
                                             'menu' => 'primary',
                                             'theme_location' => 'primary',
-                                            'menu_class' => 'hover-animation',
+                                            'container' => false,
+                                            'items_wrap' => '%3$s', // This removes the <ul> container
+                                            'walker' => new Custom_Walker_Nav_Menu()
                                         ) );
                                         ?>
                                     </div>
