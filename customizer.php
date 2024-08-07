@@ -547,6 +547,106 @@ function my_theme_customize_register( $wp_customize ) {
         'type'        => 'image',
         'priority'    => 10,
     )));
-   
+
+    // add My Journey section title
+    $wp_customize->add_setting('my_journey_section_title', array(
+        'default'           => 'My Journey',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+    
+    // add My Journey section title control
+    $wp_customize->add_control('my_journey_section_title_control', array(
+        'label'       => __('My Journey Section Title', 'wordpress-portfolio-theme'),
+        'section'     => 'about_section',
+        'settings'    => 'my_journey_section_title',
+        'type'        => 'text',
+        'placeholder' => 'Enter your my journey section title here',
+    ));
+
+    // add Experience section title
+    $wp_customize->add_setting('experience_section_title', array(
+        'default'           => 'Experience',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+
+    // add Experience section title control
+    $wp_customize->add_control('experience_section_title_control', array(
+        'label'       => __('Experience Section Title', 'wordpress-portfolio-theme'),
+        'section'     => 'about_section',
+        'settings'    => 'experience_section_title',
+        'type'        => 'text',
+        'placeholder' => 'Enter your experience section title here',
+    ));
+
+    // add Clients section title
+    $wp_customize->add_setting('clients_section_title', array(
+        'default'           => 'Clients',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+
+    // add Clients section title control
+    $wp_customize->add_control('clients_section_title_control', array(
+        'label'       => __('Clients Section Title', 'wordpress-portfolio-theme'),
+        'section'     => 'about_section',
+        'settings'    => 'clients_section_title',
+        'type'        => 'text',
+        'placeholder' => 'Enter your clients section title here',
+    ));
+
+    // Add Clients repeatable field
+    $wp_customize->add_setting('add_clients_list', array(
+        'default'           => '',
+        'sanitize_callback' => 'wp_kses_post',
+        'transport'         => 'refresh',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Repeatable_Control($wp_customize, 'add_clients_list', array(
+        'label'       => __('Add Clients List', 'wordpress-portfolio-theme'),
+        'section'     => 'about_section',
+        'settings'    => 'add_clients_list',
+    )));
+
+    
+
 }
+
+if (class_exists('WP_Customize_Control')) {
+    class WP_Customize_Repeatable_Control extends WP_Customize_Control {
+        public $type = 'repeatable';
+
+        public function enqueue() {
+            wp_enqueue_script('repeatable-control-js', get_template_directory_uri() . '/assets/js/custom.js', array('jquery'), null, true);
+            wp_enqueue_style('repeatable-control-css', get_template_directory_uri() . '/assets/css/custom-admin.css', null, null);
+        }
+
+        public function render_content() {
+            ?>
+            <label>
+                <span class="customize-control-title"><?php echo esc_html($this->label); ?></span>
+                <ul class="repeatable-list">
+                    <?php
+                    $values = $this->value();
+                    $values = !empty($values) ? json_decode($values, true) : [];
+                    foreach ($values as $value) {
+                        ?>
+                        <li class="repeatable-item">
+                            <input type="text" value="<?php echo esc_attr($value); ?>" class="repeatable-input" />
+                            <button type="button" class="button remove-repeatable"><?php _e('Remove', 'wordpress-portfolio-theme'); ?></button>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+                <button type="button" class="button add-repeatable"><?php _e('Add New Client', 'wordpress-portfolio-theme'); ?></button>
+                <input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr($this->value()); ?>" class="repeatable-value" />
+            </label>
+            <?php
+        }
+    }
+}
+
+
 ?>

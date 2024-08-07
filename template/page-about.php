@@ -64,7 +64,7 @@ get_header();
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-8 col-sm-8 col-12">
                                     <div class="about-section__title pb-20 heading-animation">
-                                        <div class="head-animation">My Journey</div>
+                                        <div class="head-animation"><?php echo esc_html(get_theme_mod('my_journey_section_title'));?></div>
                                     </div>
                                     <div class="about-detail__content--4 about-section__content content-animation">
                                         <div class="row">
@@ -126,7 +126,7 @@ get_header();
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-8 col-sm-8 col-12">
                                     <div class="about-section__title pb-20 heading-animation">
-                                        <div class="head-animation">Experience</div>
+                                        <div class="head-animation"><?php echo esc_html(get_theme_mod('experience_section_title'));?></div>
                                     </div>
                                     <div class="about-detail__content--5 about-section__content content-animation">
                                         <div class="row">
@@ -165,132 +165,44 @@ get_header();
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-8 col-sm-8 col-12">
                                     <div class="about-section__title pb-20 heading-animation">
-                                        <div class="head-animation">Clients</div>
+                                        <div class="head-animation"><?php echo esc_html(get_theme_mod('clients_section_title'));?></div>
                                     </div>
-                                    <div class="clients-content about-section__content content-animation">
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">A</p>
-                                            <div class="clients-item__content">
-                                                <p>Art&eacute;co</p>
-                                                <p>Aura Club</p>
-                                                <p>APEC Schools</p>
-                                                <p>Action on Poverty</p>
-                                            </div>
+                                        <?php 
+                                            // Get the list of clients
+                                            $add_clients_list = get_theme_mod('add_clients_list');
+
+                                            // Check if the retrieved value is a JSON string and decode it
+                                            if (is_string($add_clients_list)) {
+                                                $add_clients_list = json_decode($add_clients_list, true);
+                                            }
+
+                                            // Initialize an array to store categorized clients
+                                            $categorized_clients = [];
+
+                                            // Categorize clients by their starting letter
+                                            foreach ($add_clients_list as $client) {
+                                                $first_letter = strtoupper($client[0]);
+                                                if (!isset($categorized_clients[$first_letter])) {
+                                                    $categorized_clients[$first_letter] = [];
+                                                }
+                                                $categorized_clients[$first_letter][] = $client;
+                                            }
+                                        ?>
+                                        <div class="clients-content about-section__content content-animation client-list">
+                                            <?php foreach ($categorized_clients as $letter => $clients): ?>
+                                                <div class="clients-item">
+                                                    <p class="font-tnr font-italic fw-400 text-grey__2"><?php echo esc_html($letter); ?></p>
+                                                    <div class="clients-item__content">
+                                                        <?php foreach ($clients as $client): ?>
+                                                            <p><?php echo esc_html($client); ?></p>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
                                         </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">B</p>
-                                            <div class="clients-item__content">
-                                                <p>Bepage</p>
-                                                <p>Bizman Sky</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">C</p>
-                                            <div class="clients-item__content">
-                                                <p>Customchic</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">D</p>
-                                            <div class="clients-item__content">
-                                                <p>Dewoo Group</p>
-                                                <p>Dai Phong JSC</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">F</p>
-                                            <div class="clients-item__content">
-                                                <p>FTA E&amp;C</p>
-                                                <p>First Alliances</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">G</p>
-                                            <div class="clients-item__content">
-                                                <p>Growell Vietnam</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">I</p>
-                                            <div class="clients-item__content">
-                                                <p>iNET</p>
-                                                <p>ISU</p>
-                                                <p>ITE HCMC 2019</p>
-                                                <p>IEC Winter wolf</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">K</p>
-                                            <div class="clients-item__content">
-                                                <p>KD Tech</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">L</p>
-                                            <div class="clients-item__content">
-                                                <p>Lam Dong II Hospital</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">M</p>
-                                            <div class="clients-item__content">
-                                                <p>MIBS</p>
-                                                <p>Me Linh Plaza</p>
-                                                <p>M&amp;A Vietnam</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">N</p>
-                                            <div class="clients-item__content">
-                                                <p>Netco Post</p>
-                                                <p>Ngoc Viet Entertainment</p>
-                                                <p>Nguyen Sang Service Co.,LTD</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">P</p>
-                                            <div class="clients-item__content">
-                                                <p>Phoenix MF Co.,LTD</p>
-                                                <p>Phan Dinh Phung High school</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">S</p>
-                                            <div class="clients-item__content">
-                                                <p>Savvycom</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">T</p>
-                                            <div class="clients-item__content">
-                                                <p>Timind</p>
-                                                <p>Techcombank</p>
-                                                <p>Techmaster</p>
-                                                <p>Thien Vu Audio</p>
-                                                <p>Tinh Van Group</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">U</p>
-                                            <div class="clients-item__content">
-                                                <p>UTT</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">V</p>
-                                            <div class="clients-item__content">
-                                                <p>Viettinbank</p>
-                                                <p>VAS Track 2019</p>
-                                                <p>Vincom Royal Park</p>
-                                            </div>
-                                        </div>
-                                        <div class="clients-item">
-                                            <p class="font-tnr font-italic fw-400 text-grey__2">Z</p>
-                                            <div class="clients-item__content">
-                                                <p>Zozo</p>
-                                            </div>
-                                        </div>
+
                                     </div>
+
                                 </div>
                             </div>
                         </div>
