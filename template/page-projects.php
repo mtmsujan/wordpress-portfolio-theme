@@ -103,8 +103,7 @@ get_header();
                                         </style>
                                         <div class="project-img-wrap__115">
                                             <a href="<?php echo get_the_permalink(); ?>">
-                                                <div class="project-bg"><img src="<?php the_post_thumbnail_url(); ?>"
-                                                        alt="<?php the_title(); ?>"></div>
+                                            <div class="project-bg" style="background-image: url('<?php echo get_the_post_thumbnail_url(); ?>');"></div>
                                                 <div class="project-img"></div>
                                             </a>
                                         </div>
