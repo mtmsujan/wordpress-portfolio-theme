@@ -62,6 +62,7 @@ function wordpress_portfolio_theme_scripts() {
    wp_enqueue_script('marquee-js', get_template_directory_uri() . '/assets/js/jquery.marquee.min.js', array(), null, true);
    wp_enqueue_script('fancybox-js', get_template_directory_uri() . '/assets/js/jquery.fancybox.min.js', array(), null, true);
    wp_enqueue_script('main-js', get_template_directory_uri() . '/assets/js/main.js', array(), null, true);
+   wp_enqueue_script('project-filter', get_template_directory_uri() . '/assets/js/project-filter.js', array('jquery'), null, true);
 
    // Enqueue additional script
    wp_enqueue_script('product-option-js', get_template_directory_uri() . '/catalog/view/theme/default/javascript/product_option.js', array(), null, true);
@@ -384,7 +385,7 @@ add_action( 'customize_register', 'my_theme_customize_register' );
 function my_theme_customize_register( $wp_customize ) {
     // Add a section for the freelance availability message
     $wp_customize->add_section( 'freelance_availability_section', array(
-        'title'    => __( 'Freelance Availability', 'wordpress-portfolio-theme' ),
+        'title'    => __( 'Header Status', 'wordpress-portfolio-theme' ),
         'priority' => 160,
     ) );
 
@@ -396,7 +397,7 @@ function my_theme_customize_register( $wp_customize ) {
 
     // Add a control for the freelance availability message
     $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'freelance_availability_message_control', array(
-        'label'    => __( 'Freelance Availability Message', 'wordpress-portfolio-theme' ),
+        'label'    => __( 'Header Status', 'wordpress-portfolio-theme' ),
         'section'  => 'freelance_availability_section',
         'settings' => 'freelance_availability_message',
         'type'     => 'textarea',
