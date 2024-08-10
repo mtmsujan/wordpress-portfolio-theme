@@ -548,22 +548,6 @@ function my_theme_customize_register( $wp_customize ) {
         'priority'    => 10,
     )));
 
-    // add My Journey section title
-    $wp_customize->add_setting('my_journey_section_title', array(
-        'default'           => 'My Journey',
-        'sanitize_callback' => 'sanitize_text_field',
-        'transport'         => 'refresh',
-    ));
-    
-    // add My Journey section title control
-    $wp_customize->add_control('my_journey_section_title_control', array(
-        'label'       => __('My Journey Section Title', 'wordpress-portfolio-theme'),
-        'section'     => 'about_section',
-        'settings'    => 'my_journey_section_title',
-        'type'        => 'text',
-        'placeholder' => 'Enter your my journey section title here',
-    ));
-
     // Add Experience section title
     $wp_customize->add_setting('experience_section_title', array(
         'default'           => 'Experience',
